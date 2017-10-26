@@ -24,8 +24,4 @@
     </ContentWithTargetPath>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Contracts\" />
-  </ItemGroup>
-
 </Project>
