@@ -2,12 +2,44 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <Authors>Chris Bardsley</Authors>
+    <Company>WriteLinez L.L.C.</Company>
+    <Description>Dotnetcore PDF html based generator. Uses the libwkhtmltox native libraries to genrate pdf data.</Description>
+    <Copyright>WriteLinez L.L.C.</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/ChrisBardsley/DotNetCorePdf/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ChrisBardsley/DotNetCorePdf</RepositoryUrl>
+    <PackageTags>pdf, dotnetcore, wkhtmltopd</PackageTags>
+    <PackageReleaseNotes>First release</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <ApplicationIcon />
+    <Win32Resource />    
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <_PackageFiles Include="./Lib/libwkhtmltox.dll">
+      <BuildAction>None</BuildAction>
+      <PackagePath>lib\net45</PackagePath>
+    </_PackageFiles>
+    <_PackageFiles Include="./Lib/libwkhtmltox.dylib">
+      <BuildAction>None</BuildAction>
+      <PackagePath>lib\net45</PackagePath>
+    </_PackageFiles>
+    <_PackageFiles Include="./Lib/libwkhtmltox.so">
+      <BuildAction>None</BuildAction>
+      <PackagePath>lib\net45</PackagePath>
+    </_PackageFiles>
+</ItemGroup>
 
   <ItemGroup>
     <ContentWithTargetPath Include="Lib\libwkhtmltox.dll">
