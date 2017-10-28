@@ -8,4 +8,4 @@ script:
  - dotnet restore
  - dotnet build ./DotNetCorePdf/DotNetCorePdf.csproj -c Release 
  - dotnet pack ./DotNetCorePdf/DotNetCorePdf.csproj -c Release -o ./nuget-package
- - dotnet nuget push ./DotNetCorePdf/nuget-package/DotNetCorePdf.1.0.2.nupkg -k e4165be3-991a-44fd-b562-a7ca8884488f -s https://www.nuget.org/packages/DotNetCorePdf/
+ - dotnet nuget push ./DotNetCorePdf/nuget-package/DotNetCorePdf.1.0.2.nupkg -k e4165be3-991a-44fd-b562-a7ca8884488f -s https://www.nuget.org/api/v2/package
