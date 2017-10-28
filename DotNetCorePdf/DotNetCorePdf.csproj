@@ -39,15 +39,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <_PackageFiles Include="./Lib/libwkhtmltox.dll">
+    <_PackageFiles Include=".\Lib\libwkhtmltox.dll">
       <BuildAction>None</BuildAction>
       <PackagePath>lib\netcoreapp1.1</PackagePath>
     </_PackageFiles>
-    <_PackageFiles Include="./Lib/libwkhtmltox.dylib">
+    <_PackageFiles Include=".\Lib\libwkhtmltox.dylib">
       <BuildAction>None</BuildAction>
       <PackagePath>lib\netcoreapp1.1</PackagePath>
     </_PackageFiles>
-    <_PackageFiles Include="./Lib/libwkhtmltox.so">
+    <_PackageFiles Include=".\Lib\libwkhtmltox.so">
       <BuildAction>None</BuildAction>
       <PackagePath>lib\netcoreapp1.1</PackagePath>
     </_PackageFiles>
