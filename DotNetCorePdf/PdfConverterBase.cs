@@ -73,7 +73,7 @@ namespace DotNetCorePdf
         {   
             byte[] resultBuffer = null;
 
-            if (Monitor.TryEnter(_converterRoot, 60000))
+            lock (_converterRoot)
             {
                 try
                 {
@@ -138,8 +138,6 @@ namespace DotNetCorePdf
                         WkHtmlToPdfImports.wkhtmltopdf_destroy_converter(ConverterPtr);
                         ConverterPtr = IntPtr.Zero;
                     }
-
-                    Monitor.Exit(_converterRoot);
                 }
             }
 
