@@ -24,6 +24,7 @@ SOFTWARE.
 using DotNetCorePdf.Models;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace DotNetCorePdf.Converters
 {

@@ -24,6 +24,7 @@ SOFTWARE.
 using DotNetCorePdf.Models;
 using System;
 using System.Text;
+using System.Threading;
 
 namespace DotNetCorePdf.Converters
 {
@@ -84,6 +85,8 @@ namespace DotNetCorePdf.Converters
                 objectSettings.ProduceForms = settings.ProduceForms;
                 objectSettings.LoadSettings = settings.LoadSettings;
                 objectSettings.WebSettings = settings.WebSettings;
+                objectSettings.WebSettings = new PdfWebSettings();
+                objectSettings.WebSettings.EnableJavascript = false;
                 if (objectSettings.TableOfContents != null)
                 {
                     objectSettings.IncludeInOutline = settings.IncludeInOutline;

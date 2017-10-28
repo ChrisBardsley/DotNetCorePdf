@@ -25,6 +25,7 @@ using DotNetCorePdf.Converters;
 using DotNetCorePdf.Enums;
 using DotNetCorePdf.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace DotNetCorePdf.Tests.PdfConverterTests
         public void ConvertBytesWithMultipleThreads()
         {
             BlockingCollection<byte[]> dta = new BlockingCollection<byte[]>();
-            int threadIterations = 50;
+            int threadIterations = 2;
             byte[] resultBuffer = null;
             string htmlString = @"<html><head><title>Test Page</title></head><body><b>COUNTER: {0}</b></body></html>";
 
@@ -73,8 +74,24 @@ namespace DotNetCorePdf.Tests.PdfConverterTests
             settings.GlobalSettings.Orientation = Orientation.Portrait;
 
             DotNetCorePdf pdf = DotNetCorePdf.Create();
+            //for (int index = 0; index < threadIterations; index++)
+            //{
+            //    string ns = string.Format(htmlString, index);
+            //    byte[] htmlBuffer = Encoding.UTF8.GetBytes(ns);
+
+            //    using (StandardPdfConverter pdfConverter = pdf.CreateStandardPdfConverter())
+            //    {
+            //        resultBuffer = pdfConverter.Convert(settings, htmlBuffer);
+            //        dta.Add(resultBuffer);
+            //    }
+            //    using (FileStream fs = new FileStream($@"c:\temp\test_pdf_{index}.pdf", FileMode.Create))
+            //    {
+            //        fs.Write(resultBuffer, 0, resultBuffer.Length);
+            //    }
+            //}
             Parallel.For(0, threadIterations, index =>
             {
+                System.Threading.Thread.Sleep(2000 * index);
                 string ns = string.Format(htmlString, index);
                 byte[] htmlBuffer = Encoding.UTF8.GetBytes(ns);
 
@@ -82,6 +99,10 @@ namespace DotNetCorePdf.Tests.PdfConverterTests
                 {
                     resultBuffer = pdfConverter.Convert(settings, htmlBuffer);
                     dta.Add(resultBuffer);
+                }
+                using (FileStream fs = new FileStream($@"c:\temp\test_pdf_{index}.pdf", FileMode.Create))
+                {
+                    fs.Write(resultBuffer, 0, resultBuffer.Length);
                 }
             });
 

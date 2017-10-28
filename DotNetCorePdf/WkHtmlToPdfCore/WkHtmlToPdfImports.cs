@@ -33,6 +33,8 @@ namespace DotNetCorePdf.WkHtmlToPdfCore
 
         const CharSet CHARSET = CharSet.Unicode;
 
+        //static string DLLNAME { get { return "libwkhtmltox"; } }
+
         [DllImport(DLLNAME, CharSet = CHARSET, CallingConvention = CallingConvention.Cdecl)]
         public static extern int wkhtmltopdf_extended_qt();
 

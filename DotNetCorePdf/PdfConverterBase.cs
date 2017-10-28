@@ -27,6 +27,8 @@ using DotNetCorePdf.WkHtmlToPdfCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DotNetCorePdf
 {
@@ -71,13 +73,10 @@ namespace DotNetCorePdf
         {   
             byte[] resultBuffer = null;
 
-            lock(_converterRoot)
+            if (Monitor.TryEnter(_converterRoot, 60000))
             {
                 try
                 {
-                    if (WkHtmlToPdfImports.wkhtmltopdf_init(0) != 1)
-                        return new byte[0];
-
                     Dictionary<string, string> sGlobalSettings = ObjectToDictionaryConverter.Convert(globalSettings);
                     Dictionary<string, string> sObjectSettings = ObjectToDictionaryConverter.Convert(objectSettings);
 
@@ -119,9 +118,11 @@ namespace DotNetCorePdf
                         resultBuffer = new byte[resultLen];
                         Marshal.Copy(dataPtr, resultBuffer, 0, resultLen);
                     }
+
                 }
                 finally
                 {
+
                     if (GlobalSettingsPtr != IntPtr.Zero)
                     {
                         WkHtmlToPdfImports.wkhtmltopdf_destroy_global_settings(GlobalSettingsPtr);
@@ -138,7 +139,7 @@ namespace DotNetCorePdf
                         ConverterPtr = IntPtr.Zero;
                     }
 
-                    WkHtmlToPdfImports.wkhtmltopdf_deinit();
+                    Monitor.Exit(_converterRoot);
                 }
             }
 
@@ -147,24 +148,30 @@ namespace DotNetCorePdf
 
         protected void ProgressChangedCallback(IntPtr converter)
         {
-            if (OnProgressChanged != null)
-            {
-                IntPtr progressStrPtr = WkHtmlToPdfImports.wkhtmltopdf_progress_string(converter);
-                string progressStr = Marshal.PtrToStringAnsi(progressStrPtr);
-                OnProgressChanged(progressStr);
-            }
+            IntPtr progressStrPtr = WkHtmlToPdfImports.wkhtmltopdf_progress_string(converter);
+            string progressStr = Marshal.PtrToStringAnsi(progressStrPtr);
+            //if (OnProgressChanged != null)
+            //{
+            //    IntPtr progressStrPtr = WkHtmlToPdfImports.wkhtmltopdf_progress_string(converter);
+            //    string progressStr = Marshal.PtrToStringAnsi(progressStrPtr);
+            //    OnProgressChanged(progressStr);
+            //}
         }
 
         protected void PhaseChangedCallback(IntPtr converter)
         {
-            if (OnPhaseChanged != null)
-            {
-                int currentPhase = WkHtmlToPdfImports.wkhtmltopdf_current_phase(converter);
-                int phaseCount = WkHtmlToPdfImports.wkhtmltopdf_phase_count(converter);
-                IntPtr phaseDescriptionStrPtr = WkHtmlToPdfImports.wkhtmltopdf_phase_description(converter, currentPhase);
-                string phaseDescriptionStr = Marshal.PtrToStringAnsi(phaseDescriptionStrPtr);
-                OnPhaseChanged(currentPhase, phaseCount, phaseDescriptionStr);
-            }
+            int currentPhase = WkHtmlToPdfImports.wkhtmltopdf_current_phase(converter);
+            int phaseCount = WkHtmlToPdfImports.wkhtmltopdf_phase_count(converter);
+            IntPtr phaseDescriptionStrPtr = WkHtmlToPdfImports.wkhtmltopdf_phase_description(converter, currentPhase);
+            string phaseDescriptionStr = Marshal.PtrToStringAnsi(phaseDescriptionStrPtr);
+            //if (OnPhaseChanged != null)
+            //{
+            //    int currentPhase = WkHtmlToPdfImports.wkhtmltopdf_current_phase(converter);
+            //    int phaseCount = WkHtmlToPdfImports.wkhtmltopdf_phase_count(converter);
+            //    IntPtr phaseDescriptionStrPtr = WkHtmlToPdfImports.wkhtmltopdf_phase_description(converter, currentPhase);
+            //    string phaseDescriptionStr = Marshal.PtrToStringAnsi(phaseDescriptionStrPtr);
+            //    OnPhaseChanged(currentPhase, phaseCount, phaseDescriptionStr);
+            //}
         }
 
         protected void ErrorCallback(IntPtr converter, string str)
@@ -204,18 +211,20 @@ namespace DotNetCorePdf
 
             }
             // free native resources if there are any.  
-            if (GlobalSettingsPtr != IntPtr.Zero)
-            {
-                WkHtmlToPdfImports.wkhtmltopdf_destroy_global_settings(GlobalSettingsPtr);
-            }
-            if (ObjectSettingsPtr != IntPtr.Zero)
-            {
-                WkHtmlToPdfImports.wkhtmltopdf_destroy_object_settings(ObjectSettingsPtr);
-            }
-            if (ConverterPtr != IntPtr.Zero)
-            {
-                WkHtmlToPdfImports.wkhtmltopdf_destroy_converter(ConverterPtr);
-            }
+            //if (GlobalSettingsPtr != IntPtr.Zero)
+            //{
+            //    WkHtmlToPdfImports.wkhtmltopdf_destroy_global_settings(GlobalSettingsPtr);
+            //}
+            //if (ObjectSettingsPtr != IntPtr.Zero)
+            //{
+            //    WkHtmlToPdfImports.wkhtmltopdf_destroy_object_settings(ObjectSettingsPtr);
+            //}
+            //if (ConverterPtr != IntPtr.Zero)
+            //{
+            //    WkHtmlToPdfImports.wkhtmltopdf_destroy_converter(ConverterPtr);
+            //}
+
+            //WkHtmlToPdfImports.wkhtmltopdf_deinit();
         }
         #endregion
     }

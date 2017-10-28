@@ -25,6 +25,7 @@ using DotNetCorePdf.Converters;
 using DotNetCorePdf.WkHtmlToPdfCore;
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace DotNetCorePdf
 {
@@ -55,6 +56,7 @@ namespace DotNetCorePdf
         private DotNetCorePdf()
         {
             loaded = true;
+            WkHtmlToPdfImports.wkhtmltopdf_init(1);
         }
         #endregion
 
@@ -109,7 +111,7 @@ namespace DotNetCorePdf
             // free native resources if there are any.  
             if (loaded)
             {
-                //WkHtmlToPdfImports.wkhtmltopdf_deinit();
+                WkHtmlToPdfImports.wkhtmltopdf_deinit();
             }
         }
         #endregion
