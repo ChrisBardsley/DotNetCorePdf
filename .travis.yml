@@ -4,4 +4,5 @@ dotnet: 1.1.0
 dist: trusty
 script:
  - dotnet restore
+ - dotnet build ./DotNetCorePdf/DotNetCorePdf.csproj -c Release 
  - dotnet pack ./DotNetCorePdf/DotNetCorePdf.csproj -c Release -o ./nuget-package
