@@ -14,8 +14,10 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <ApplicationIcon />
     <Win32Resource />
-    <Version>1.0.1</Version>
-    <Platforms>AnyCPU;x64</Platforms>    
+    <Version>1.0.2</Version>
+    <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <FileVersion>1.0.2.0</FileVersion>    
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
